@@ -1,17 +1,9 @@
-import { useState } from "react";
+import { useState, SetStateAction, Dispatch } from "react";
 import styled from "styled-components";
-import Neck from "./assets/neck/default.png";
-import Nose from "./assets/nose.png";
-import Mouth from "./assets/mouth/default.png";
-import Eyes from "./assets/eyes/default.png";
-// import Accesories from "./assets/accessories/default.png";
-import EarBack from "./assets/ears/tilt-backward.png";
-import EarFront from "./assets/ears/tilt-forward.png";
-import Leg from "./assets/leg/default.png";
-import Background from "./assets/backgrounds/blue50.png";
 
 import "./App.css";
 import { BUTTONS_LIST } from "./assets/const/buttons";
+import AlpacaViewer from "./components/AlpacaViewer";
 
 const AlpacaContainer = styled("article")`
   position: relative;
@@ -19,61 +11,68 @@ const AlpacaContainer = styled("article")`
   height: 360px;
   background-color: red;
 `;
-interface AlpacaBodyPartProps {
-  zIndex?: string;
-}
-
-const AlpacaBodyPart = styled("img")`
-  position: absolute;
-  height: 100%;
-  left: 0px;
-  bottom: 0px;
-  z-index: ${(props: AlpacaBodyPartProps) =>
-    props.zIndex ? props.zIndex : "0"};
-`;
 
 const StyledButton = styled("button")``;
-const MainContent = styled("section")``;
+const MainContent = styled("article")`
+  width: 80vw;
+  display: flex;
+  /* background-color: red; */
+`;
 const Wrapper = styled("div")``;
 const CustomControlsContainer = styled("div")``;
 
-const Button = ({ btnTitle }: { btnTitle: string }) => (
-  <StyledButton>{btnTitle}</StyledButton>
-);
+type ButtonListType = {
+  name: string;
+  variants: string[];
+}[];
 
 const RenderButtons = (
-  buttons: {
-    name: string;
-    variants: string[];
-  }[]
+  buttons: ButtonListType,
+  config: {
+    callback: Dispatch<SetStateAction<string>>;
+  }
 ) => {
   return buttons.map((button) => {
-    return <Button btnTitle={button.name} />;
+    return (
+      <StyledButton
+        onClick={() => {
+          if (config.callback) {
+            config.callback(button.name);
+            console.log("clicked: ", button.name);
+          }
+        }}
+      >
+        {button.name}
+      </StyledButton>
+    );
   });
 };
 
+const alpacaConfig = {
+  hair: "default",
+  neck: "default",
+  earBack: "",
+  earFront: "default",
+  mouth: "default",
+  nose: "default",
+  leg: "default",
+};
+
 function App() {
-  const [count, setCount] = useState(0);
+  const [selectedBtn, setSelectedBtn] = useState<string>("background");
 
   return (
     <Wrapper>
-      <h1>Alpaca Generator v1.0</h1>
       <MainContent>
         <AlpacaContainer>
-          <img src={Background} style={{ width: "100%" }} />
-          {/* <img src={Accesories} /> */}
-          <AlpacaBodyPart src={EarBack} />
-          <AlpacaBodyPart src={EarFront} />
-          <AlpacaBodyPart src={Eyes} zIndex="10" />
-          <AlpacaBodyPart src={Mouth} zIndex="10" />
-          <AlpacaBodyPart src={Nose} />
-          <AlpacaBodyPart src={Neck} />
-          <AlpacaBodyPart src={Leg} />
-          <button>Ramdon</button>
-          <button>Download</button>
+          <AlpacaViewer alpacaConfig={alpacaConfig} />
         </AlpacaContainer>
         <CustomControlsContainer>
-          {RenderButtons(BUTTONS_LIST)}
+          <>
+            <h2>Accesorize the Alpaca</h2>
+            {RenderButtons(BUTTONS_LIST, { callback: setSelectedBtn })}
+            <h2>Style</h2>
+          </>
         </CustomControlsContainer>
 
         <article></article>
