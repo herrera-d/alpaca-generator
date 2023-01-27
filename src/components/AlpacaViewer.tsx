@@ -15,6 +15,23 @@ interface AlpacaBodyPartProps {
   zIndex?: string;
 }
 
+export type AlpacaBodypartName =
+  | "hair"
+  | "eyes"
+  | "ears"
+  | "leg"
+  | "mouth"
+  | "neck";
+
+export interface AlpacaBodyPartsInterface {
+  name: AlpacaBodypartName;
+  selectedCustomization: string;
+}
+
+export type AlpacaViewerProps = {
+  alpacaBodyParts: AlpacaBodyPartsInterface[];
+};
+
 const AlpacaBodyPart = styled("img")`
   position: absolute;
   height: 100%;
@@ -24,23 +41,26 @@ const AlpacaBodyPart = styled("img")`
     props.zIndex ? props.zIndex : "0"};
 `;
 
-const AlpacaViewer = ({
-  alpacaConfig,
-}: {
-  alpacaConfig: {
-    hair: string;
-    neck: string;
-    earBack: string;
-    earFront: string;
-    mouth: string;
-    nose: string;
-    leg: string;
-  };
-}): ReactElement => {
+const getCustomizeBodyPart = (
+  bodyPartName: AlpacaBodypartName,
+  { alpacaBodyParts }: AlpacaViewerProps
+) => {
+  const bodyPart = alpacaBodyParts.find(
+    (bodyPart) => bodyPart.name === bodyPartName
+  ) as AlpacaBodyPartsInterface;
+  return bodyPart.selectedCustomization;
+};
+
+const AlpacaViewer = (alpacaBodyParts: AlpacaViewerProps): ReactElement => {
   return (
     <>
       <AlpacaBodyPart src={Background} />
-      <AlpacaBodyPart src={EarBack} />
+      <AlpacaBodyPart
+        src={`../assets/ears/${getCustomizeBodyPart(
+          "ears",
+          alpacaBodyParts
+        )}.png`}
+      />
       <AlpacaBodyPart src={EarFront} />
       <AlpacaBodyPart src={Eyes} zIndex="10" />
       <AlpacaBodyPart src={Mouth} zIndex="10" />

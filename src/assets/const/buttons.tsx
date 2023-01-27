@@ -1,7 +1,38 @@
-export const BUTTONS_LIST = [
+import { AlpacaBodypartName } from "../../components/AlpacaViewer";
+
+export type CustommizationOptions =
+  | "bang"
+  | "curls"
+  | "default"
+  | "elegant"
+  | "quiff"
+  | "angry"
+  | "naughty"
+  | "panda"
+  | "smart"
+  | "star"
+  | "cookie"
+  | "bubble-tea"
+  | "game-console"
+  | "tilt-backward"
+  | "tilt-forward"
+  | "astonished"
+  | "eating"
+  | "laugh";
+
+export const BODYPART_BUTTONS_NAMES: AlpacaBodypartName[] = [
+  "hair",
+  "eyes",
+  "ears",
+  "leg",
+  "mouth",
+  "neck",
+];
+
+export const CUSTOMIZE_OPTIONS = [
   {
     name: "hair",
-    variants: [
+    customizationOptions: [
       "bang",
       "curls",
       "default",
@@ -13,15 +44,22 @@ export const BUTTONS_LIST = [
   },
   {
     name: "eyes",
-    variants: ["angry", "naughty", "default", "panda", "smart", "star"],
+    customizationOptions: [
+      "angry",
+      "naughty",
+      "default",
+      "panda",
+      "smart",
+      "star",
+    ],
   },
   {
     name: "ears",
-    variants: ["tilt-backward", "tilt-forward", "default"],
+    customizationOptions: ["tilt-backward", "tilt-forward", "default"],
   },
   {
     name: "leg",
-    variants: [
+    customizationOptions: [
       "cookie",
       "bubble-tea",
       "default",
@@ -32,10 +70,16 @@ export const BUTTONS_LIST = [
   },
   {
     name: "mouth",
-    variants: ["astonished", "eating", "default", "eating", "tongue"],
+    customizationOptions: [
+      "astonished",
+      "eating",
+      "default",
+      "eating",
+      "tongue",
+    ],
   },
   {
     name: "neck",
-    variants: ["bend-backward", "bend-forward", "default", "thick"],
+    customizationOptions: ["bend-backward", "bend-forward", "default", "thick"],
   },
 ];
