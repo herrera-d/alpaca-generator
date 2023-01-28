@@ -1,14 +1,9 @@
-import { useState, SetStateAction, Dispatch } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 import "./App.css";
-import {
-  BODYPART_BUTTONS_NAMES,
-  CUSTOMIZE_OPTIONS,
-  CustommizationOptions,
-} from "./assets/const/buttons";
+import { CustommizationOptions } from "./assets/const/buttons";
 import AlpacaViewer, {
-  AlpacaViewerProps,
   AlpacaBodyPartsInterface,
   AlpacaBodypartName,
 } from "./components/AlpacaViewer";
@@ -23,19 +18,13 @@ const AlpacaContainer = styled("article")`
 const MainContent = styled("article")`
   width: 80vw;
   display: flex;
-  /* background-color: red; */
 `;
 
 const Wrapper = styled("div")``;
 const CustomControlsContainer = styled("div")``;
 
 function App() {
-  const [optionToCustomize, setOptionToCustomize] =
-    useState<AlpacaBodypartName>("hair");
-
-  const [alpacaBodyParts, setAlpacaBodyParts] = useState<
-    AlpacaBodyPartsInterface[]
-  >([
+  const AlpacaInitialState: AlpacaBodyPartsInterface[] = [
     {
       name: "hair",
       selectedCustomization: "default",
@@ -60,33 +49,24 @@ function App() {
       name: "neck",
       selectedCustomization: "default",
     },
-  ]);
+  ];
+  const [alpacaBodyParts, setAlpacaBodyParts] =
+    useState<AlpacaBodyPartsInterface[]>(AlpacaInitialState);
 
-  const updateCustomBodyPart = (
-    buttonName: CustommizationOptions,
-    alpacaBodyParts: AlpacaBodyPartsInterface[]
+  const updateBodyPart = (
+    newBodyPartVariant: CustommizationOptions,
+    target?: AlpacaBodypartName
   ) => {
     let newAlpacaBodyParts = alpacaBodyParts.map((bodypart) => {
-      if (bodypart.name === optionToCustomize) {
-        return bodypart.selectedCustomization === buttonName;
+      if (bodypart.name === target) {
+        bodypart.selectedCustomization = newBodyPartVariant;
+        return bodypart;
       }
       return bodypart;
     }) as AlpacaBodyPartsInterface[];
 
     setAlpacaBodyParts(newAlpacaBodyParts);
-    console.log("newAlpacaBodyParts: ", newAlpacaBodyParts);
   };
-
-  // const handleButtonClick = (buttonName: handleClickProps): void => {
-  //   console.log("cb");
-  //   if (BODYPART_BUTTONS_NAMES.includes(buttonName)) {
-  //     setOptionToCustomize(buttonName);
-  //     console.log("button pressed: ", buttonName);
-  //   } else {
-  //     updateCustomBodyPart(buttonName, alpacaBodyParts);
-  //   }
-  // };
-
   return (
     <Wrapper>
       <MainContent>
@@ -94,10 +74,8 @@ function App() {
           <AlpacaViewer alpacaBodyParts={alpacaBodyParts} />
         </AlpacaContainer>
         <CustomControlsContainer>
-          <CustomizationControls />
+          <CustomizationControls updateBodyPart={updateBodyPart} />
         </CustomControlsContainer>
-
-        <article></article>
       </MainContent>
     </Wrapper>
   );

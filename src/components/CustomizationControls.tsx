@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import {
   BODYPART_BUTTONS_NAMES,
   CUSTOMIZE_OPTIONS,
   CustommizationOptions,
 } from "../assets/const/buttons";
-import { AlpacaBodypartName } from "./AlpacaViewer";
+import { AlpacaBodypartName, AlpacaBodyPartsInterface } from "./AlpacaViewer";
 
 type handleClickProps = CustommizationOptions & AlpacaBodypartName;
 
+type CustomizationControlsProps = (
+  buttonName: CustommizationOptions,
+  targe?: AlpacaBodypartName
+) => void;
+
 const StyledButton = styled("button")``;
+
+const isBodyPartButton = (buttonName: AlpacaBodypartName) =>
+  BODYPART_BUTTONS_NAMES.includes;
 
 const RenderButtons = (
   buttons: AlpacaBodypartName[] | CustommizationOptions[],
@@ -28,13 +36,15 @@ const RenderButtons = (
   });
 };
 
-const CustomizationControls = () => {
+const CustomizationControls = ({
+  updateBodyPart,
+}: {
+  updateBodyPart: CustomizationControlsProps;
+}) => {
   const [selectedBodyPart, setSelectedBodyPart] =
     useState<AlpacaBodypartName>("hair");
 
-  const getBodyPartCustomizationOptions = (
-    selectedBodyPart: AlpacaBodypartName
-  ) => {
+  const getCustomizeBtns = (selectedBodyPart: AlpacaBodypartName) => {
     return CUSTOMIZE_OPTIONS.find((option) => option.name === selectedBodyPart)
       ?.customizationOptions as CustommizationOptions[];
   };
@@ -42,12 +52,11 @@ const CustomizationControls = () => {
   const handleButtonClick = (buttonName: handleClickProps): void => {
     if (BODYPART_BUTTONS_NAMES.includes(buttonName)) {
       setSelectedBodyPart(buttonName);
-      console.log("button pressed: ", buttonName);
     } else {
-      console.log("button pressed: ", buttonName);
-      // updateCustomBodyPart(buttonName, alpacaBodyParts);
+      updateBodyPart(buttonName, selectedBodyPart);
     }
   };
+
   return (
     <>
       <h2>Accesorize the Alpaca</h2>
@@ -55,7 +64,7 @@ const CustomizationControls = () => {
         callback: handleButtonClick,
       })}
       <h2>Style</h2>
-      {RenderButtons(getBodyPartCustomizationOptions(selectedBodyPart), {
+      {RenderButtons(getCustomizeBtns(selectedBodyPart), {
         callback: handleButtonClick,
       })}
     </>

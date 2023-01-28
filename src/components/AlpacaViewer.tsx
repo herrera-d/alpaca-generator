@@ -41,32 +41,62 @@ const AlpacaBodyPart = styled("img")`
     props.zIndex ? props.zIndex : "0"};
 `;
 
-const getCustomizeBodyPart = (
+const getBodyPartUrl = (
   bodyPartName: AlpacaBodypartName,
   { alpacaBodyParts }: AlpacaViewerProps
 ) => {
   const bodyPart = alpacaBodyParts.find(
     (bodyPart) => bodyPart.name === bodyPartName
   ) as AlpacaBodyPartsInterface;
-  return bodyPart.selectedCustomization;
+  console.log(`src/assets/ears/${bodyPart?.selectedCustomization}.png`);
+  return bodyPart?.selectedCustomization as string;
 };
 
 const AlpacaViewer = (alpacaBodyParts: AlpacaViewerProps): ReactElement => {
+  console.log("alpaca viewer alpacaBodyParts: ", alpacaBodyParts);
   return (
     <>
-      <AlpacaBodyPart src={Background} />
-      <AlpacaBodyPart
-        src={`../assets/ears/${getCustomizeBodyPart(
-          "ears",
-          alpacaBodyParts
-        )}.png`}
-      />
-      <AlpacaBodyPart src={EarFront} />
-      <AlpacaBodyPart src={Eyes} zIndex="10" />
-      <AlpacaBodyPart src={Mouth} zIndex="10" />
-      <AlpacaBodyPart src={Nose} />
-      <AlpacaBodyPart src={Neck} />
-      <AlpacaBodyPart src={Leg} />
+      {alpacaBodyParts && (
+        <>
+          <AlpacaBodyPart src={Background} />
+          <AlpacaBodyPart
+            src={`src/assets/ears/${getBodyPartUrl(
+              "ears",
+              alpacaBodyParts
+            )}.png`}
+          />
+          <AlpacaBodyPart
+            src={`src/assets/hair/${getBodyPartUrl(
+              "hair",
+              alpacaBodyParts
+            )}.png`}
+          />
+          <AlpacaBodyPart
+            src={`src/assets/eyes/${getBodyPartUrl(
+              "eyes",
+              alpacaBodyParts
+            )}.png`}
+            zIndex="10"
+          />
+          <AlpacaBodyPart
+            src={`src/assets/mouth/${getBodyPartUrl(
+              "mouth",
+              alpacaBodyParts
+            )}.png`}
+            zIndex="10"
+          />
+          <AlpacaBodyPart src={`src/assets/nose/nose.png`} />
+          <AlpacaBodyPart
+            src={`src/assets/neck/${getBodyPartUrl(
+              "neck",
+              alpacaBodyParts
+            )}.png`}
+          />
+          <AlpacaBodyPart
+            src={`src/assets/leg/${getBodyPartUrl("leg", alpacaBodyParts)}.png`}
+          />
+        </>
+      )}
     </>
   );
 };
