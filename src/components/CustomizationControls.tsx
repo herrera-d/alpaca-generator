@@ -14,7 +14,9 @@ type CustomizationControlsProps = (
   targe?: AlpacaBodypartName
 ) => void;
 
-const StyledButton = styled("button")``;
+const StyledButton = styled("button")`
+  margin: 5px;
+`;
 
 const isBodyPartButton = (buttonName: AlpacaBodypartName) =>
   BODYPART_BUTTONS_NAMES.includes;
@@ -60,6 +62,7 @@ const CustomizationControls = ({
   return (
     <>
       <h2>Accesorize the Alpaca</h2>
+
       {RenderButtons(BODYPART_BUTTONS_NAMES, {
         callback: handleButtonClick,
       })}

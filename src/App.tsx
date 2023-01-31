@@ -15,13 +15,21 @@ const AlpacaContainer = styled("article")`
   height: 360px;
   background-color: red;
 `;
-const MainContent = styled("article")`
-  width: 80vw;
+const MainContent = styled("div")`
   display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
 `;
 
-const Wrapper = styled("div")``;
-const CustomControlsContainer = styled("div")``;
+const Wrapper = styled("div")`
+  width: 100vw;
+  display: flex;
+  justify-items: center;
+`;
+const CustomControlsWrapper = styled("div")`
+  margin-left: 60px;
+  max-width: 458px;
+`;
 
 function App() {
   const AlpacaInitialState: AlpacaBodyPartsInterface[] = [
@@ -73,9 +81,9 @@ function App() {
         <AlpacaContainer>
           <AlpacaViewer alpacaBodyParts={alpacaBodyParts} />
         </AlpacaContainer>
-        <CustomControlsContainer>
+        <CustomControlsWrapper>
           <CustomizationControls updateBodyPart={updateBodyPart} />
-        </CustomControlsContainer>
+        </CustomControlsWrapper>
       </MainContent>
     </Wrapper>
   );
