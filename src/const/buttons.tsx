@@ -1,4 +1,4 @@
-import { AlpacaBodypartName } from "../../components/AlpacaViewer";
+import { AlpacaBodypartName, SelectorButton } from "../components/AlpacaViewer";
 
 export type CustommizationOptions =
   | "bang"
@@ -20,18 +20,19 @@ export type CustommizationOptions =
   | "eating"
   | "laugh";
 
-export const BODYPART_BUTTONS_NAMES: AlpacaBodypartName[] = [
+export const SELECT_BUTTONS_NAMES: SelectorButton[] = [
   "hair",
   "eyes",
   "ears",
   "leg",
   "mouth",
   "neck",
+  "accesories",
 ];
 
 export const CUSTOMIZE_OPTIONS = [
   {
-    name: "hair",
+    selectedType: "hair",
     customizationOptions: [
       "bang",
       "curls",
@@ -43,7 +44,7 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    name: "eyes",
+    selectedType: "eyes",
     customizationOptions: [
       "angry",
       "naughty",
@@ -54,11 +55,11 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    name: "ears",
+    selectedType: "ears",
     customizationOptions: ["tilt-backward", "tilt-forward", "default"],
   },
   {
-    name: "leg",
+    selectedType: "leg",
     customizationOptions: [
       "cookie",
       "bubble-tea",
@@ -69,7 +70,7 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    name: "mouth",
+    selectedType: "mouth",
     customizationOptions: [
       "astonished",
       "eating",
@@ -79,7 +80,10 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    name: "neck",
+    selectedType: "neck",
     customizationOptions: ["bend-backward", "bend-forward", "default", "thick"],
+  },
+  {
+    selectedType: "nose",
   },
 ];

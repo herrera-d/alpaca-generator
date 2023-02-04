@@ -2,10 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import "./App.css";
-import { CustommizationOptions } from "./assets/const/buttons";
+import { CustommizationOptions } from "./const/buttons";
 import AlpacaViewer, {
-  AlpacaBodyPartsInterface,
-  AlpacaBodypartName,
+  AlpacaConfigurationOption,
+  ConfigType,
 } from "./components/AlpacaViewer";
 import CustomizationControls from "./components/CustomizationControls";
 
@@ -32,57 +32,60 @@ const CustomControlsWrapper = styled("div")`
 `;
 
 function App() {
-  const AlpacaInitialState: AlpacaBodyPartsInterface[] = [
+  const AlpacaInitialState: AlpacaConfigurationOption[] = [
     {
-      name: "hair",
-      selectedCustomization: "default",
+      selectedType: "hair",
+      selectedSubType: "default",
     },
     {
-      name: "eyes",
-      selectedCustomization: "default",
+      selectedType: "eyes",
+      selectedSubType: "default",
     },
     {
-      name: "ears",
-      selectedCustomization: "tilt-backward",
+      selectedType: "ears",
+      selectedSubType: "tilt-backward",
     },
     {
-      name: "leg",
-      selectedCustomization: "default",
+      selectedType: "leg",
+      selectedSubType: "default",
     },
     {
-      name: "mouth",
-      selectedCustomization: "default",
+      selectedType: "mouth",
+      selectedSubType: "default",
     },
     {
-      name: "neck",
-      selectedCustomization: "default",
+      selectedType: "neck",
+      selectedSubType: "default",
+    },
+    {
+      selectedType: "nose",
     },
   ];
-  const [alpacaBodyParts, setAlpacaBodyParts] =
-    useState<AlpacaBodyPartsInterface[]>(AlpacaInitialState);
+  const [alpacaParts, setAlpacaParts] =
+    useState<AlpacaConfigurationOption[]>(AlpacaInitialState);
 
-  const updateBodyPart = (
-    newBodyPartVariant: CustommizationOptions,
-    target?: AlpacaBodypartName
+  const updatePart = (
+    selectedType: ConfigType,
+    selectedSubType?: CustommizationOptions
   ) => {
-    let newAlpacaBodyParts = alpacaBodyParts.map((bodypart) => {
-      if (bodypart.name === target) {
-        bodypart.selectedCustomization = newBodyPartVariant;
+    let newAlpacaPart = alpacaParts.map((bodypart) => {
+      if (bodypart.selectedType === selectedType) {
+        bodypart.selectedSubType = selectedSubType;
         return bodypart;
       }
       return bodypart;
-    }) as AlpacaBodyPartsInterface[];
+    }) as AlpacaConfigurationOption[];
 
-    setAlpacaBodyParts(newAlpacaBodyParts);
+    setAlpacaParts(newAlpacaPart);
   };
   return (
     <Wrapper>
       <MainContent>
         <AlpacaContainer>
-          <AlpacaViewer alpacaBodyParts={alpacaBodyParts} />
+          <AlpacaViewer itemsToRender={alpacaParts} />
         </AlpacaContainer>
         <CustomControlsWrapper>
-          <CustomizationControls updateBodyPart={updateBodyPart} />
+          <CustomizationControls updatePart={updatePart} />
         </CustomControlsWrapper>
       </MainContent>
     </Wrapper>

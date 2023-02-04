@@ -11,94 +11,70 @@ import EarFront from "../assets/ears/tilt-forward.png";
 import Leg from "../assets/leg/default.png";
 import Background from "../assets/backgrounds/blue50.png";
 
-interface AlpacaBodyPartProps {
+interface AlpacaPartProps {
   zIndex?: string;
 }
 
-export type AlpacaBodypartName =
+export type ConfigType =
   | "hair"
   | "eyes"
   | "ears"
   | "leg"
   | "mouth"
-  | "neck";
+  | "neck"
+  | "nose"
+  | "accesories";
 
-export interface AlpacaBodyPartsInterface {
-  name: AlpacaBodypartName;
-  selectedCustomization: string;
+export interface AlpacaConfigurationOption {
+  selectedType: ConfigType;
+  selectedSubType?: string;
 }
 
 export type AlpacaViewerProps = {
-  alpacaBodyParts: AlpacaBodyPartsInterface[];
+  itemsToRender: AlpacaConfigurationOption[];
 };
 
-const AlpacaBodyPart = styled("img")`
+interface AlpacaPartProps {
+  zIndex?: string;
+}
+
+const AlpacaPart = styled.img<AlpacaPartProps>`
   position: absolute;
   height: 100%;
   left: 0px;
   bottom: 0px;
-  z-index: ${(props: AlpacaBodyPartProps) =>
-    props.zIndex ? props.zIndex : "0"};
+  z-index: ${(props: AlpacaPartProps) => (props.zIndex ? props.zIndex : "0")};
 `;
 
-const getBodyPartUrl = (
-  bodyPartName: AlpacaBodypartName,
-  { alpacaBodyParts }: AlpacaViewerProps
-) => {
-  const bodyPart = alpacaBodyParts.find(
-    (bodyPart) => bodyPart.name === bodyPartName
-  ) as AlpacaBodyPartsInterface;
-  console.log(`src/assets/ears/${bodyPart?.selectedCustomization}.png`);
-  return bodyPart?.selectedCustomization as string;
+const alpacaCustomBodyPartFactory = ({ itemsToRender }: AlpacaViewerProps) => {
+  return itemsToRender.map((item, index) => {
+    const zIndexValue =
+      item.selectedType === "eyes" || item.selectedType === "mouth"
+        ? "10"
+        : "0";
+
+    if (item.selectedSubType) {
+      return (
+        <AlpacaPart
+          src={`src/assets/${item.selectedType}/${item.selectedSubType}.png`}
+          zIndex={zIndexValue}
+          key={index}
+        />
+      );
+    }
+    return (
+      <AlpacaPart
+        src={`src/assets/${item.selectedType}/${item.selectedType}.png`}
+        zIndex={zIndexValue}
+        key={index}
+      />
+    );
+  });
 };
 
-const AlpacaViewer = (alpacaBodyParts: AlpacaViewerProps): ReactElement => {
-  console.log("alpaca viewer alpacaBodyParts: ", alpacaBodyParts);
-  return (
-    <>
-      {alpacaBodyParts && (
-        <>
-          <AlpacaBodyPart src={Background} />
-          <AlpacaBodyPart
-            src={`src/assets/ears/${getBodyPartUrl(
-              "ears",
-              alpacaBodyParts
-            )}.png`}
-          />
-          <AlpacaBodyPart
-            src={`src/assets/hair/${getBodyPartUrl(
-              "hair",
-              alpacaBodyParts
-            )}.png`}
-          />
-          <AlpacaBodyPart
-            src={`src/assets/eyes/${getBodyPartUrl(
-              "eyes",
-              alpacaBodyParts
-            )}.png`}
-            zIndex="10"
-          />
-          <AlpacaBodyPart
-            src={`src/assets/mouth/${getBodyPartUrl(
-              "mouth",
-              alpacaBodyParts
-            )}.png`}
-            zIndex="10"
-          />
-          <AlpacaBodyPart src={`src/assets/nose/nose.png`} />
-          <AlpacaBodyPart
-            src={`src/assets/neck/${getBodyPartUrl(
-              "neck",
-              alpacaBodyParts
-            )}.png`}
-          />
-          <AlpacaBodyPart
-            src={`src/assets/leg/${getBodyPartUrl("leg", alpacaBodyParts)}.png`}
-          />
-        </>
-      )}
-    </>
-  );
+const AlpacaViewer = (AlpacaParts: AlpacaViewerProps): ReactElement => {
+  console.log("alpacaparts: ", AlpacaParts);
+  return <>{AlpacaParts && alpacaCustomBodyPartFactory(AlpacaParts)}</>;
 };
 
 export default AlpacaViewer;
