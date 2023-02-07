@@ -2,12 +2,12 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import "./App.css";
-import { CustommizationOptions } from "./const/buttons";
 import AlpacaViewer, {
   AlpacaConfigurationOption,
-  ConfigType,
+  TargetType,
 } from "./components/AlpacaViewer";
 import CustomizationControls from "./components/CustomizationControls";
+import { CustomizationOption } from "./const/buttons";
 
 const AlpacaContainer = styled("article")`
   position: relative;
@@ -34,49 +34,53 @@ const CustomControlsWrapper = styled("div")`
 function App() {
   const AlpacaInitialState: AlpacaConfigurationOption[] = [
     {
-      selectedType: "hair",
-      selectedSubType: "default",
+      selectedTarget: "hair",
+      selectedCustomization: "default",
     },
     {
-      selectedType: "eyes",
-      selectedSubType: "default",
+      selectedTarget: "eyes",
+      selectedCustomization: "default",
     },
     {
-      selectedType: "ears",
-      selectedSubType: "tilt-backward",
+      selectedTarget: "ears",
+      selectedCustomization: "tilt-backward",
     },
     {
-      selectedType: "leg",
-      selectedSubType: "default",
+      selectedTarget: "leg",
+      selectedCustomization: "default",
     },
     {
-      selectedType: "mouth",
-      selectedSubType: "default",
+      selectedTarget: "mouth",
+      selectedCustomization: "default",
     },
     {
-      selectedType: "neck",
-      selectedSubType: "default",
+      selectedTarget: "neck",
+      selectedCustomization: "default",
     },
     {
-      selectedType: "nose",
+      selectedTarget: "accessories",
+    },
+    {
+      selectedTarget: "nose",
+      selectedCustomization: "",
     },
   ];
   const [alpacaParts, setAlpacaParts] =
     useState<AlpacaConfigurationOption[]>(AlpacaInitialState);
 
   const updatePart = (
-    selectedType: ConfigType,
-    selectedSubType?: CustommizationOptions
+    selectedType: TargetType,
+    selectedSubType?: CustomizationOption
   ) => {
-    let newAlpacaPart = alpacaParts.map((bodypart) => {
-      if (bodypart.selectedType === selectedType) {
-        bodypart.selectedSubType = selectedSubType;
-        return bodypart;
+    let newAlpacaConfiguration = alpacaParts.map((item) => {
+      if (item.selectedTarget === selectedType) {
+        item.selectedCustomization = selectedSubType;
+        return item;
       }
-      return bodypart;
+      return item;
     }) as AlpacaConfigurationOption[];
 
-    setAlpacaParts(newAlpacaPart);
+    setAlpacaParts(newAlpacaConfiguration);
   };
   return (
     <Wrapper>
