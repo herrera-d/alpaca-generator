@@ -1,6 +1,6 @@
-import { AlpacaBodypartName, SelectorButton } from "../components/AlpacaViewer";
+import { AlpacaBodypartName, TargetType } from "../components/AlpacaViewer";
 
-export type CustommizationOptions =
+export type CustomizationOption =
   | "bang"
   | "curls"
   | "default"
@@ -20,19 +20,19 @@ export type CustommizationOptions =
   | "eating"
   | "laugh";
 
-export const SELECT_BUTTONS_NAMES: SelectorButton[] = [
+export const TARGET_NAMES: TargetType[] = [
   "hair",
   "eyes",
   "ears",
   "leg",
   "mouth",
   "neck",
-  "accesories",
+  "accessories",
 ];
 
-export const CUSTOMIZE_OPTIONS = [
+export const ALPACA_CUSTOMIZATION_OPTIONS = [
   {
-    selectedType: "hair",
+    target: "hair",
     customizationOptions: [
       "bang",
       "curls",
@@ -44,7 +44,7 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    selectedType: "eyes",
+    target: "eyes",
     customizationOptions: [
       "angry",
       "naughty",
@@ -55,11 +55,11 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    selectedType: "ears",
+    target: "ears",
     customizationOptions: ["tilt-backward", "tilt-forward", "default"],
   },
   {
-    selectedType: "leg",
+    target: "leg",
     customizationOptions: [
       "cookie",
       "bubble-tea",
@@ -70,7 +70,7 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    selectedType: "mouth",
+    target: "mouth",
     customizationOptions: [
       "astonished",
       "eating",
@@ -80,10 +80,14 @@ export const CUSTOMIZE_OPTIONS = [
     ],
   },
   {
-    selectedType: "neck",
+    target: "neck",
     customizationOptions: ["bend-backward", "bend-forward", "default", "thick"],
   },
   {
-    selectedType: "nose",
+    target: "accessories",
+    customizationOptions: ["earings", "flower", "glasses", "headphone"],
+  },
+  {
+    target: "nose",
   },
 ];

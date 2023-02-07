@@ -1,35 +1,37 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import {
-  CUSTOMIZE_OPTIONS,
-  CustommizationOptions,
-  SELECT_BUTTONS_NAMES,
+  ALPACA_CUSTOMIZATION_OPTIONS,
+  TARGET_NAMES,
+  CustomizationOption,
 } from "../const/buttons";
-import { AlpacaConfigurationOption, ConfigType } from "./AlpacaViewer";
+import { AlpacaConfigurationOption, TargetType } from "./AlpacaViewer";
 
-type handleClickProps = CustommizationOptions & ConfigType;
+type handleClickProps = CustomizationOption & TargetType;
 
 type CustomizationControlsProps = (
-  selectedType: ConfigType,
-  selectedSubType?: CustommizationOptions
+  selectedType: TargetType,
+  selectedSubType?: CustomizationOption
 ) => void;
 
 const StyledButton = styled("button")`
   margin: 5px;
+  &.selected {
+    border: 1px solid white;
+  }
 `;
 
-const isBodyPartButton = (buttonselectedType: ConfigType) =>
-  SELECT_BUTTONS_NAMES.includes;
-
 const RenderButtons = (
-  buttons: ConfigType[] | CustommizationOptions[],
+  buttons: TargetType[] | CustomizationOption[],
   config: {
     callback: (buttonselectedType: handleClickProps) => void;
-  }
+  },
+  selectedTarget?: TargetType
 ) => {
-  return buttons.map((buttonName) => {
+  return buttons.map((buttonName: CustomizationOption | TargetType) => {
     return (
       <StyledButton
+        className={`${buttonName === selectedTarget ? "selected" : ""}`}
         onClick={() => config.callback(buttonName as handleClickProps)}
       >
         {buttonName}
@@ -43,19 +45,19 @@ const CustomizationControls = ({
 }: {
   updatePart: CustomizationControlsProps;
 }) => {
-  const [sectionType, setSectionType] = useState<ConfigType>("hair");
+  const [selectedTarget, setSelectedTarget] = useState<TargetType>("hair");
 
-  const getCustomizeBtns = (selectedType: ConfigType) => {
-    return CUSTOMIZE_OPTIONS.find(
-      (option) => option.selectedType === selectedType
-    )?.customizationOptions as CustommizationOptions[];
+  const getCustomizeBtns = (selectedType: TargetType) => {
+    return ALPACA_CUSTOMIZATION_OPTIONS.find(
+      (option) => option.target === selectedType
+    )?.customizationOptions as CustomizationOption[];
   };
 
   const handleButtonClick = (selectedOption: handleClickProps): void => {
-    if (SELECT_BUTTONS_NAMES.includes(selectedOption)) {
-      setSectionType(selectedOption);
+    if (TARGET_NAMES.includes(selectedOption)) {
+      setSelectedTarget(selectedOption);
     } else {
-      updatePart(sectionType, selectedOption);
+      updatePart(selectedTarget, selectedOption);
     }
   };
 
@@ -63,11 +65,15 @@ const CustomizationControls = ({
     <>
       <h2>Accesorize the Alpaca</h2>
 
-      {RenderButtons(SELECT_BUTTONS_NAMES, {
-        callback: handleButtonClick,
-      })}
+      {RenderButtons(
+        TARGET_NAMES,
+        {
+          callback: handleButtonClick,
+        },
+        selectedTarget
+      )}
       <h2>Style</h2>
-      {RenderButtons(getCustomizeBtns(sectionType), {
+      {RenderButtons(getCustomizeBtns(selectedTarget), {
         callback: handleButtonClick,
       })}
     </>

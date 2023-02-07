@@ -15,7 +15,7 @@ interface AlpacaPartProps {
   zIndex?: string;
 }
 
-export type ConfigType =
+export type TargetType =
   | "hair"
   | "eyes"
   | "ears"
@@ -23,11 +23,11 @@ export type ConfigType =
   | "mouth"
   | "neck"
   | "nose"
-  | "accesories";
+  | "accessories";
 
 export interface AlpacaConfigurationOption {
-  selectedType: ConfigType;
-  selectedSubType?: string;
+  selectedTarget: TargetType;
+  selectedCustomization?: string;
 }
 
 export type AlpacaViewerProps = {
@@ -49,14 +49,16 @@ const AlpacaPart = styled.img<AlpacaPartProps>`
 const alpacaCustomBodyPartFactory = ({ itemsToRender }: AlpacaViewerProps) => {
   return itemsToRender.map((item, index) => {
     const zIndexValue =
-      item.selectedType === "eyes" || item.selectedType === "mouth"
+      item.selectedTarget === "eyes" ||
+      item.selectedTarget === "mouth" ||
+      item.selectedTarget === "accessories"
         ? "10"
         : "0";
 
-    if (item.selectedSubType) {
+    if (item.selectedCustomization) {
       return (
         <AlpacaPart
-          src={`src/assets/${item.selectedType}/${item.selectedSubType}.png`}
+          src={`src/assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
           zIndex={zIndexValue}
           key={index}
         />
@@ -64,7 +66,7 @@ const alpacaCustomBodyPartFactory = ({ itemsToRender }: AlpacaViewerProps) => {
     }
     return (
       <AlpacaPart
-        src={`src/assets/${item.selectedType}/${item.selectedType}.png`}
+        src={`src/assets/${item.selectedTarget}/${item.selectedTarget}.png`}
         zIndex={zIndexValue}
         key={index}
       />
@@ -72,9 +74,13 @@ const alpacaCustomBodyPartFactory = ({ itemsToRender }: AlpacaViewerProps) => {
   });
 };
 
-const AlpacaViewer = (AlpacaParts: AlpacaViewerProps): ReactElement => {
-  console.log("alpacaparts: ", AlpacaParts);
-  return <>{AlpacaParts && alpacaCustomBodyPartFactory(AlpacaParts)}</>;
+const AlpacaViewer = (alpacaConfiguration: AlpacaViewerProps): ReactElement => {
+  console.log("alpacaparts: ", alpacaConfiguration);
+  return (
+    <>
+      {alpacaConfiguration && alpacaCustomBodyPartFactory(alpacaConfiguration)}
+    </>
+  );
 };
 
 export default AlpacaViewer;
