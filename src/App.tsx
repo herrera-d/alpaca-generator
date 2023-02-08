@@ -11,7 +11,7 @@ import { CustomizationOption } from "./const/buttons";
 
 const AlpacaContainer = styled("article")`
   position: relative;
-  width: 360px;
+  width: 100%;
   height: 360px;
   background-color: red;
 `;
@@ -27,7 +27,6 @@ const Wrapper = styled("div")`
   justify-items: center;
 `;
 const CustomControlsWrapper = styled("div")`
-  margin-left: 60px;
   max-width: 458px;
 `;
 

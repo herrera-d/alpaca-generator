@@ -23,7 +23,8 @@ export type TargetType =
   | "mouth"
   | "neck"
   | "nose"
-  | "accessories";
+  | "accessories"
+  | "background";
 
 export interface AlpacaConfigurationOption {
   selectedTarget: TargetType;

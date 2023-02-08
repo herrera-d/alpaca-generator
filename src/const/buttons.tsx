@@ -18,7 +18,10 @@ export type CustomizationOption =
   | "tilt-forward"
   | "astonished"
   | "eating"
-  | "laugh";
+  | "laugh"
+  | "#2A5CA7"
+  | "#2B7BF4"
+  | "#5696F6";
 
 export const TARGET_NAMES: TargetType[] = [
   "hair",
@@ -28,7 +31,10 @@ export const TARGET_NAMES: TargetType[] = [
   "mouth",
   "neck",
   "accessories",
+  "background",
 ];
+
+export const backgroundColors = ["#2A5CA7", "#2B7BF4", "#5696F6"];
 
 export const ALPACA_CUSTOMIZATION_OPTIONS = [
   {
@@ -86,6 +92,10 @@ export const ALPACA_CUSTOMIZATION_OPTIONS = [
   {
     target: "accessories",
     customizationOptions: ["earings", "flower", "glasses", "headphone"],
+  },
+  {
+    target: "background",
+    customizationOptions: backgroundColors,
   },
   {
     target: "nose",

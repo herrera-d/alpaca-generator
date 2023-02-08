@@ -4,6 +4,7 @@ import {
   ALPACA_CUSTOMIZATION_OPTIONS,
   TARGET_NAMES,
   CustomizationOption,
+  backgroundColors,
 } from "../const/buttons";
 import { AlpacaConfigurationOption, TargetType } from "./AlpacaViewer";
 
@@ -21,6 +22,21 @@ const StyledButton = styled("button")`
   }
 `;
 
+interface ButtonBacgkroundColor {
+  color: string;
+}
+
+const BackgroundButton = styled("button")<ButtonBacgkroundColor>`
+  margin: 6px;
+  height: 38px;
+  border-radius: 80%;
+  background-color: ${(props) => (props.color ? props.color : "")};
+
+  &.selected {
+    border: 1px solid white;
+  }
+`;
+
 const RenderButtons = (
   buttons: TargetType[] | CustomizationOption[],
   config: {
@@ -29,6 +45,9 @@ const RenderButtons = (
   selectedTarget?: TargetType
 ) => {
   return buttons.map((buttonName: CustomizationOption | TargetType) => {
+    if (backgroundColors.includes(buttonName)) {
+      return <BackgroundButton color={buttonName} />;
+    }
     return (
       <StyledButton
         className={`${buttonName === selectedTarget ? "selected" : ""}`}
@@ -47,7 +66,7 @@ const CustomizationControls = ({
 }) => {
   const [selectedTarget, setSelectedTarget] = useState<TargetType>("hair");
 
-  const getCustomizeBtns = (selectedType: TargetType) => {
+  const getCustomizeOptionsBtns = (selectedType: TargetType) => {
     return ALPACA_CUSTOMIZATION_OPTIONS.find(
       (option) => option.target === selectedType
     )?.customizationOptions as CustomizationOption[];
@@ -73,7 +92,7 @@ const CustomizationControls = ({
         selectedTarget
       )}
       <h2>Style</h2>
-      {RenderButtons(getCustomizeBtns(selectedTarget), {
+      {RenderButtons(getCustomizeOptionsBtns(selectedTarget), {
         callback: handleButtonClick,
       })}
     </>
