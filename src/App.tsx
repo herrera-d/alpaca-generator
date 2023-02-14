@@ -13,21 +13,32 @@ const AlpacaContainer = styled("article")`
   position: relative;
   width: 100%;
   height: 360px;
-  background-color: red;
 `;
 const MainContent = styled("div")`
-  display: flex;
+  /* display: flex;
   margin: 0 auto;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 2fr;
+  }
 `;
 
 const Wrapper = styled("div")`
-  width: 100vw;
-  display: flex;
-  justify-items: center;
+  @media (min-width: 768px) {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 const CustomControlsWrapper = styled("div")`
-  max-width: 458px;
+  //max-width: 458px;
 `;
 
 function App() {
@@ -58,6 +69,10 @@ function App() {
     },
     {
       selectedTarget: "accessories",
+    },
+    {
+      selectedTarget: "backgrounds",
+      selectedCustomization: "2A5CA7",
     },
     {
       selectedTarget: "nose",

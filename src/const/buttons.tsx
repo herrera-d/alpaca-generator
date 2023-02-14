@@ -1,4 +1,4 @@
-import { AlpacaBodypartName, TargetType } from "../components/AlpacaViewer";
+import { TargetType } from "../components/AlpacaViewer";
 
 export type CustomizationOption =
   | "bang"
@@ -31,10 +31,29 @@ export const TARGET_NAMES: TargetType[] = [
   "mouth",
   "neck",
   "accessories",
-  "background",
+  "backgrounds",
 ];
 
-export const backgroundColors = ["#2A5CA7", "#2B7BF4", "#5696F6"];
+export const backgroundColors = [
+  "2A5CA7",
+  "2B7BF4",
+  "5696F6",
+  "7A8FAF",
+  "9F370B",
+  "9FD966",
+  "9FD967",
+  "74BD28",
+  "01193D",
+  "002966",
+  "5696F6",
+  "333333",
+  "666666",
+  "CCCCCC",
+  "CE8E",
+  "E5B60E",
+  "E85E22",
+  "FBD33F",
+];
 
 export const ALPACA_CUSTOMIZATION_OPTIONS = [
   {
@@ -94,7 +113,7 @@ export const ALPACA_CUSTOMIZATION_OPTIONS = [
     customizationOptions: ["earings", "flower", "glasses", "headphone"],
   },
   {
-    target: "background",
+    target: "backgrounds",
     customizationOptions: backgroundColors,
   },
   {

@@ -9,7 +9,8 @@ import Eyes from "../assets/eyes/default.png";
 import EarBack from "../assets/ears/tilt-backward.png";
 import EarFront from "../assets/ears/tilt-forward.png";
 import Leg from "../assets/leg/default.png";
-import Background from "../assets/backgrounds/blue50.png";
+// import Background from "../assets/backgrounds/blue50.png";
+import { CustomizationOption } from "../const/buttons";
 
 interface AlpacaPartProps {
   zIndex?: string;
@@ -24,7 +25,7 @@ export type TargetType =
   | "neck"
   | "nose"
   | "accessories"
-  | "background";
+  | "backgrounds";
 
 export interface AlpacaConfigurationOption {
   selectedTarget: TargetType;
@@ -39,35 +40,49 @@ interface AlpacaPartProps {
   zIndex?: string;
 }
 
-const AlpacaPart = styled.img<AlpacaPartProps>`
+interface GetImagePath {
+  selectedCustomization: string | undefined;
+  selectedTarget: TargetType;
+}
+
+const Item = styled.img<AlpacaPartProps>`
   position: absolute;
   height: 100%;
   left: 0px;
   bottom: 0px;
-  z-index: ${(props: AlpacaPartProps) => (props.zIndex ? props.zIndex : "0")};
+  z-index: ${(props: AlpacaPartProps) => props.zIndex};
 `;
 
-const alpacaCustomBodyPartFactory = ({ itemsToRender }: AlpacaViewerProps) => {
-  return itemsToRender.map((item, index) => {
-    const zIndexValue =
-      item.selectedTarget === "eyes" ||
-      item.selectedTarget === "mouth" ||
-      item.selectedTarget === "accessories"
-        ? "10"
-        : "0";
+const getItemImgPath = ({
+  selectedCustomization,
+  selectedTarget,
+}: {
+  selectedCustomization: string | undefined;
+  selectedTarget: TargetType;
+}) =>
+  selectedCustomization
+    ? `src/assets/${selectedTarget}/${selectedCustomization}.png`
+    : `src/assets/${selectedTarget}/${selectedTarget}.png`;
 
-    if (item.selectedCustomization) {
+const renderItems = ({ itemsToRender }: AlpacaViewerProps) => {
+  const upperLayerItems = ["eyes", "mouth", "accessories"];
+
+  return itemsToRender.map((item, index) => {
+    const { selectedTarget, selectedCustomization } = item;
+    const zIndexValue = upperLayerItems.includes(selectedTarget) ? "2" : "1";
+
+    if (selectedTarget === "backgrounds") {
       return (
-        <AlpacaPart
+        <Item
           src={`src/assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
-          zIndex={zIndexValue}
-          key={index}
+          zIndex="0"
         />
       );
     }
+
     return (
-      <AlpacaPart
-        src={`src/assets/${item.selectedTarget}/${item.selectedTarget}.png`}
+      <Item
+        src={getItemImgPath({ selectedCustomization, selectedTarget })}
         zIndex={zIndexValue}
         key={index}
       />
@@ -75,13 +90,8 @@ const alpacaCustomBodyPartFactory = ({ itemsToRender }: AlpacaViewerProps) => {
   });
 };
 
-const AlpacaViewer = (alpacaConfiguration: AlpacaViewerProps): ReactElement => {
-  console.log("alpacaparts: ", alpacaConfiguration);
-  return (
-    <>
-      {alpacaConfiguration && alpacaCustomBodyPartFactory(alpacaConfiguration)}
-    </>
-  );
+const AlpacaViewer = (itemsToRender: AlpacaViewerProps): ReactElement => {
+  return <>{itemsToRender && renderItems(itemsToRender)}</>;
 };
 
 export default AlpacaViewer;

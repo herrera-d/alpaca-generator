@@ -46,7 +46,12 @@ const RenderButtons = (
 ) => {
   return buttons.map((buttonName: CustomizationOption | TargetType) => {
     if (backgroundColors.includes(buttonName)) {
-      return <BackgroundButton color={buttonName} />;
+      return (
+        <BackgroundButton
+          color={`#${buttonName}`}
+          onClick={() => config.callback(buttonName as handleClickProps)}
+        />
+      );
     }
     return (
       <StyledButton
