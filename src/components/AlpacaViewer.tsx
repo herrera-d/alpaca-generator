@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import styled from "styled-components";
 
 import Neck from "../assets/neck/default.png";
@@ -10,7 +10,10 @@ import EarBack from "../assets/ears/tilt-backward.png";
 import EarFront from "../assets/ears/tilt-forward.png";
 import Leg from "../assets/leg/default.png";
 // import Background from "../assets/backgrounds/blue50.png";
-import { CustomizationOption } from "../const/buttons";
+import {
+  ALPACA_CUSTOMIZATION_OPTIONS,
+  CustomizationOption,
+} from "../const/buttons";
 
 interface AlpacaPartProps {
   zIndex?: string;
@@ -41,9 +44,15 @@ interface AlpacaPartProps {
 }
 
 interface GetImagePath {
-  selectedCustomization: string | undefined;
+  selectedCustomization?: string;
   selectedTarget: TargetType;
 }
+
+const AlpacaContainer = styled("article")`
+  position: relative;
+  width: 100%;
+  height: 360px;
+`;
 
 const Item = styled.img<AlpacaPartProps>`
   position: absolute;
@@ -57,7 +66,7 @@ const getItemImgPath = ({
   selectedCustomization,
   selectedTarget,
 }: {
-  selectedCustomization: string | undefined;
+  selectedCustomization?: string;
   selectedTarget: TargetType;
 }) =>
   selectedCustomization
@@ -91,7 +100,16 @@ const renderItems = ({ itemsToRender }: AlpacaViewerProps) => {
 };
 
 const AlpacaViewer = (itemsToRender: AlpacaViewerProps): ReactElement => {
-  return <>{itemsToRender && renderItems(itemsToRender)}</>;
+  const [randomizedAlpaca, setRandomizedAlpaca] = useState<
+    AlpacaConfigurationOption[] | undefined
+  >();
+
+  return (
+    <AlpacaContainer>
+      {itemsToRender && renderItems(itemsToRender)}
+      <div></div>
+    </AlpacaContainer>
+  );
 };
 
 export default AlpacaViewer;

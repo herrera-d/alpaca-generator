@@ -7,7 +7,10 @@ import AlpacaViewer, {
   TargetType,
 } from "./components/AlpacaViewer";
 import CustomizationControls from "./components/CustomizationControls";
-import { CustomizationOption } from "./const/buttons";
+import {
+  ALPACA_CUSTOMIZATION_OPTIONS,
+  CustomizationOption,
+} from "./const/buttons";
 
 const AlpacaContainer = styled("article")`
   position: relative;
@@ -37,10 +40,8 @@ const Wrapper = styled("div")`
     align-items: center;
   }
 `;
-const CustomControlsWrapper = styled("div")`
-  //max-width: 458px;
-`;
-
+const CustomControlsWrapper = styled("div")``;
+const ViewerContainer = styled("div")``;
 function App() {
   const AlpacaInitialState: AlpacaConfigurationOption[] = [
     {
@@ -82,6 +83,31 @@ function App() {
   const [alpacaParts, setAlpacaParts] =
     useState<AlpacaConfigurationOption[]>(AlpacaInitialState);
 
+  const makeRandomizedAlpaca = (): void => {
+    const generateRandomIndex = (arrayLength: number): number =>
+      Math.floor(Math.random() * arrayLength) + 1;
+
+    const alpaquex = ALPACA_CUSTOMIZATION_OPTIONS.map((item) => {
+      const { customizationOptions, target } = item as {
+        customizationOptions: CustomizationOption[];
+        target: TargetType;
+      };
+      if (customizationOptions) {
+        return {
+          selectedTarget: target,
+          selectedCustomization:
+            customizationOptions[
+              generateRandomIndex(customizationOptions.length)
+            ],
+        };
+      }
+      return {
+        selectedTarget: target,
+      };
+    });
+    setAlpacaParts(alpaquex);
+  };
+
   const updatePart = (
     selectedType: TargetType,
     selectedSubType?: CustomizationOption
@@ -99,9 +125,10 @@ function App() {
   return (
     <Wrapper>
       <MainContent>
-        <AlpacaContainer>
+        <ViewerContainer>
           <AlpacaViewer itemsToRender={alpacaParts} />
-        </AlpacaContainer>
+          <button onClick={() => makeRandomizedAlpaca()}>Randomizer</button>
+        </ViewerContainer>
         <CustomControlsWrapper>
           <CustomizationControls updatePart={updatePart} />
         </CustomControlsWrapper>
