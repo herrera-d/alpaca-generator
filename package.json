@@ -1,12 +1,15 @@
 {
   "name": "alpaca-generator",
-  "private": true,
-  "version": "0.0.0",
+  "homepage": "https://herrera-d.github.io/alpaca-generator/",
+  "private": false,
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && vite preview",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.26",
