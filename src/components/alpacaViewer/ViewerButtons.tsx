@@ -19,23 +19,27 @@ const ViewerButtons = ({
     alpacaContainerRef,
     randomizerCallback,
 }: {
-    alpacaContainerRef: React.MutableRefObject<null>
+    alpacaContainerRef: React.RefObject<HTMLDivElement>
     randomizerCallback: () => void
-}): JSX.Element => (
-    <ButtonsContainer>
-        <ViewerButton
-            onClick={() => exportAsImage(alpacaContainerRef.current, 'test')}
-        >
-            EXPORT
-        </ViewerButton>
-        <ViewerButton
-            onClick={() => {
-                randomizerCallback()
-            }}
-        >
-            RANDOMIZE
-        </ViewerButton>
-    </ButtonsContainer>
-)
+}): JSX.Element => {
+    const handleClick = () => {
+        if (alpacaContainerRef.current) {
+            exportAsImage(alpacaContainerRef.current, 'test')
+        }
+    }
+
+    return (
+        <ButtonsContainer>
+            <ViewerButton onClick={handleClick}>EXPORT</ViewerButton>
+            <ViewerButton
+                onClick={() => {
+                    randomizerCallback()
+                }}
+            >
+                RANDOMIZE
+            </ViewerButton>
+        </ButtonsContainer>
+    )
+}
 
 export default ViewerButtons

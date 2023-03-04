@@ -62,32 +62,40 @@ const getItemImgPath = ({
     selectedTarget: TargetType
 }) =>
     selectedCustomization
-        ? `src/assets/${selectedTarget}/${selectedCustomization}.png`
-        : `src/assets/${selectedTarget}/${selectedTarget}.png`
+        ? `assets/${selectedTarget}/${selectedCustomization}.png`
+        : `assets/${selectedTarget}/${selectedTarget}.png`
 
-const renderAlpaca = (itemsToRender: AlpacaConfigurationOption[]) => {
+const renderAlpaca = (alpacaPortraitParts: AlpacaConfigurationOption[]) => {
     const upperLayerItems = ['eyes', 'mouth', 'accessories']
 
-    return itemsToRender.map((item, index) => {
+    return alpacaPortraitParts.map((item, index) => {
         const { selectedTarget, selectedCustomization } = item
         const zIndexValue = upperLayerItems.includes(selectedTarget) ? '2' : '1'
+        const isSelectedTargetAccesories = selectedTarget === 'accessories'
 
         if (selectedTarget === 'backgrounds') {
             return (
                 <Item
-                    src={`src/assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
+                    src={`assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
                     zIndex="0"
                 />
             )
         }
-
-        return (
-            <Item
-                src={getItemImgPath({ selectedCustomization, selectedTarget })}
-                zIndex={zIndexValue}
-                key={index}
-            />
-        )
+        if (
+            (isSelectedTargetAccesories && selectedCustomization) ||
+            !isSelectedTargetAccesories
+        ) {
+            return (
+                <Item
+                    src={getItemImgPath({
+                        selectedCustomization,
+                        selectedTarget,
+                    })}
+                    zIndex={zIndexValue}
+                    key={index}
+                />
+            )
+        }
     })
 }
 
@@ -98,7 +106,7 @@ const AlpacaViewer = ({
     const [randomizedAlpaca, setRandomizedAlpaca] = useState<
         AlpacaViewerProps | undefined
     >()
-    const alpacaContainerRef = useRef(null)
+    const alpacaContainerRef = useRef<HTMLDivElement>(null)
 
     return (
         <Wrapper>
