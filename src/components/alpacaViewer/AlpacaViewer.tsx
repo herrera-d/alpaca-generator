@@ -62,8 +62,8 @@ const getItemImgPath = ({
     selectedTarget: TargetType
 }) =>
     selectedCustomization
-        ? `assets/${selectedTarget}/${selectedCustomization}.png`
-        : `assets/${selectedTarget}/${selectedTarget}.png`
+        ? `./assets/${selectedTarget}/${selectedCustomization}.png`
+        : `./assets/${selectedTarget}/${selectedTarget}.png`
 
 const renderAlpaca = (alpacaPortraitParts: AlpacaConfigurationOption[]) => {
     const upperLayerItems = ['eyes', 'mouth', 'accessories']
@@ -76,7 +76,7 @@ const renderAlpaca = (alpacaPortraitParts: AlpacaConfigurationOption[]) => {
         if (selectedTarget === 'backgrounds') {
             return (
                 <Item
-                    src={`assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
+                    src={`./assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
                     zIndex="0"
                 />
             )
