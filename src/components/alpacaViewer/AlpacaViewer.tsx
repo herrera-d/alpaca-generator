@@ -1,30 +1,16 @@
 import { ReactElement, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { StyledComponent } from 'styled-components'
+import {
+    AlpacaState,
+    AlpacaStateOption,
+    CustomizationOption,
+    TargetType,
+} from '../../types'
 
 import ViewerButtons from './ViewerButtons'
 
-interface AlpacaPartProps {
-    zIndex?: string
-}
-
-export type TargetType =
-    | 'hair'
-    | 'eyes'
-    | 'ears'
-    | 'leg'
-    | 'mouth'
-    | 'neck'
-    | 'nose'
-    | 'accessories'
-    | 'backgrounds'
-
-export interface AlpacaConfigurationOption {
-    selectedTarget: TargetType
-    selectedCustomization?: string
-}
-
-export type AlpacaViewerProps = {
-    itemsToRender: AlpacaConfigurationOption[]
+type AlpacaViewerProps = {
+    itemsToRender: AlpacaState
     randomizerCallback: () => void
 }
 
@@ -35,15 +21,14 @@ interface AlpacaPartProps {
 const AlpacaViewerContainer = styled('div')`
     position: relative;
     width: 100%;
-    min-height: 386px;
-    @media (min-width: 768px) {
-        position: relative;
-    }
+    padding-bottom: 100%;
 `
 
 const Item = styled.img<AlpacaPartProps>`
     position: absolute;
+    width: 100%;
     height: 100%;
+    object-fit: contain;
     left: 0px;
     bottom: 0px;
     z-index: ${(props: AlpacaPartProps) => props.zIndex};
@@ -58,33 +43,31 @@ const getItemImgPath = ({
     selectedCustomization,
     selectedTarget,
 }: {
-    selectedCustomization?: string
+    selectedCustomization: CustomizationOption
     selectedTarget: TargetType
 }) =>
     selectedCustomization
         ? `./assets/${selectedTarget}/${selectedCustomization}.png`
-        : `./assets/${selectedTarget}/${selectedTarget}.png`
+        : `./assets/${selectedTarget}/default.png`
 
-const renderAlpaca = (alpacaPortraitParts: AlpacaConfigurationOption[]) => {
-    const upperLayerItems = ['eyes', 'mouth', 'accessories']
+const renderAlpaca = (alpacaPortraitParts: AlpacaState) => {
+    const topLayerTargets = ['eyes', 'mouth', 'accessories']
 
-    return alpacaPortraitParts.map((item, index) => {
-        const { selectedTarget, selectedCustomization } = item
-        const zIndexValue = upperLayerItems.includes(selectedTarget) ? '2' : '1'
-        const isSelectedTargetAccesories = selectedTarget === 'accessories'
-
-        if (selectedTarget === 'backgrounds') {
-            return (
-                <Item
-                    src={`./assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
-                    zIndex="0"
-                />
-            )
-        }
-        if (
-            (isSelectedTargetAccesories && selectedCustomization) ||
-            !isSelectedTargetAccesories
-        ) {
+    return alpacaPortraitParts.map(
+        (item: AlpacaStateOption, index): ReactElement => {
+            const { selectedTarget, selectedCustomization } = item
+            const zIndexValue = topLayerTargets.includes(selectedTarget)
+                ? '2'
+                : '1'
+            const isSelectedTargetAccesories = selectedTarget === 'accessories'
+            if (selectedTarget === 'backgrounds') {
+                return (
+                    <Item
+                        src={`./assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
+                        zIndex="0"
+                    />
+                )
+            }
             return (
                 <Item
                     src={getItemImgPath({
@@ -96,16 +79,15 @@ const renderAlpaca = (alpacaPortraitParts: AlpacaConfigurationOption[]) => {
                 />
             )
         }
-    })
+    )
 }
 
 const AlpacaViewer = ({
     itemsToRender,
     randomizerCallback,
 }: AlpacaViewerProps): ReactElement => {
-    const [randomizedAlpaca, setRandomizedAlpaca] = useState<
-        AlpacaViewerProps | undefined
-    >()
+    const [randomizedAlpaca, setRandomizedAlpaca] =
+        useState<AlpacaViewerProps>()
     const alpacaContainerRef = useRef<HTMLDivElement>(null)
 
     return (

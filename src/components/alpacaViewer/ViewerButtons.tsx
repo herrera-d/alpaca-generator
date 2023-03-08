@@ -10,9 +10,8 @@ const ViewerButton = styled.button`
 `
 
 const ButtonsContainer = styled.div`
-    width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 `
 
 const ViewerButtons = ({

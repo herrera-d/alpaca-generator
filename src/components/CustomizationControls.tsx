@@ -1,15 +1,18 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 import styled from 'styled-components'
+import { UpdatePartProps } from '../App'
+import { ALPACA_CUSTOMIZATION_OPTIONS } from '../const/alpaca'
 import {
-    ALPACA_CUSTOMIZATION_OPTIONS,
     TARGET_NAMES,
-    CustomizationOption,
     backgroundColors,
+    BackgroundColor,
 } from '../const/buttons'
+
 import {
-    AlpacaConfigurationOption,
+    BackgroundColorCSSValue,
+    CustomizationOption,
     TargetType,
-} from './alpacaViewer/AlpacaViewer'
+} from '../types'
 
 type handleClickProps = CustomizationOption & TargetType
 
@@ -25,21 +28,19 @@ const StyledButton = styled('button')`
     }
 `
 
-interface ButtonBacgkroundColor {
-    color: string
-}
-
-const BackgroundButton = styled('button')<ButtonBacgkroundColor>`
+const BackgroundButton = styled('button')<{ color: BackgroundColor }>`
     margin: 6px;
     height: 38px;
     border-radius: 80%;
-    background-color: ${(props) => (props.color ? props.color : '')};
+    background-color: ${(props) => (props.color ? `#${props.color}` : '')};
 
     &.selected {
         border: 1px solid white;
     }
 `
-
+const SelectOptionBtnsContainer = styled('div')`
+    position: relative;
+`
 const RenderButtons = (
     buttons: TargetType[] | CustomizationOption[],
     config: {
@@ -47,23 +48,23 @@ const RenderButtons = (
     },
     selectedTarget?: TargetType
 ) => {
-    return buttons.map((buttonName: CustomizationOption | TargetType) => {
-        if (backgroundColors.includes(buttonName)) {
+    return buttons.map((value: CustomizationOption | TargetType) => {
+        if (backgroundColors.includes(value as BackgroundColor)) {
+            const backgroundColor = value as BackgroundColor
             return (
                 <BackgroundButton
-                    color={`#${buttonName}`}
-                    onClick={() =>
-                        config.callback(buttonName as handleClickProps)
-                    }
+                    color={backgroundColor}
+                    onClick={() => config.callback(value as handleClickProps)}
+                    z-index="0"
                 />
             )
         }
         return (
             <StyledButton
-                className={`${buttonName === selectedTarget ? 'selected' : ''}`}
-                onClick={() => config.callback(buttonName as handleClickProps)}
+                className={`${value === selectedTarget ? 'selected' : ''}`}
+                onClick={() => config.callback(value as handleClickProps)}
             >
-                {buttonName}
+                {value}
             </StyledButton>
         )
     })
@@ -72,7 +73,10 @@ const RenderButtons = (
 const CustomizationControls = ({
     updatePart,
 }: {
-    updatePart: CustomizationControlsProps
+    updatePart: ({
+        selectedTarget,
+        selectedCustomization,
+    }: UpdatePartProps) => void
 }) => {
     const [selectedTarget, setSelectedTarget] = useState<TargetType>('hair')
 
@@ -82,29 +86,30 @@ const CustomizationControls = ({
         )?.customizationOptions as CustomizationOption[]
     }
 
-    const handleButtonClick = (selectedOption: handleClickProps): void => {
-        if (TARGET_NAMES.includes(selectedOption)) {
-            setSelectedTarget(selectedOption)
-        } else {
-            updatePart(selectedTarget, selectedOption)
-        }
-    }
+    const handleButtonClick = (
+        selectedCustomization: CustomizationOption
+    ): void => updatePart({ selectedTarget, selectedCustomization })
+
+    const handleSelect = (selectedOption: TargetType) =>
+        setSelectedTarget(selectedOption)
 
     return (
         <>
-            <h2>Accesorize the Alpaca</h2>
+            <h2>Select what you want to customize</h2>
 
             {RenderButtons(
                 TARGET_NAMES,
                 {
-                    callback: handleButtonClick,
+                    callback: handleSelect,
                 },
                 selectedTarget
             )}
-            <h2>Style</h2>
-            {RenderButtons(getCustomizeOptionsBtns(selectedTarget), {
-                callback: handleButtonClick,
-            })}
+            <h2>Select customization option</h2>
+            <SelectOptionBtnsContainer>
+                {RenderButtons(getCustomizeOptionsBtns(selectedTarget), {
+                    callback: handleButtonClick,
+                })}
+            </SelectOptionBtnsContainer>
         </>
     )
 }
