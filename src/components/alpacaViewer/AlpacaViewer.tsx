@@ -2,6 +2,7 @@ import { ReactElement, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import ViewerButtons from './ViewerButtons'
+import { CustomizationOption } from '../../const/buttons'
 
 interface AlpacaPartProps {
     zIndex?: string
@@ -20,7 +21,7 @@ export type TargetType =
 
 export interface AlpacaConfigurationOption {
     selectedTarget: TargetType
-    selectedCustomization?: string
+    selectedCustomization: CustomizationOption
 }
 
 export type AlpacaViewerProps = {
@@ -43,7 +44,9 @@ const AlpacaViewerContainer = styled('div')`
 
 const Item = styled.img<AlpacaPartProps>`
     position: absolute;
+    width: 100%;
     height: 100%;
+    object-fit: cover;
     left: 0px;
     bottom: 0px;
     z-index: ${(props: AlpacaPartProps) => props.zIndex};
@@ -60,42 +63,39 @@ const getItemImgPath = ({
 }: {
     selectedCustomization?: string
     selectedTarget: TargetType
-}) =>
-    selectedCustomization
-        ? `./assets/${selectedTarget}/${selectedCustomization}.png`
-        : `./assets/${selectedTarget}/${selectedTarget}.png`
+}) => `./assets/${selectedTarget}/${selectedCustomization}.png`
 
 const renderAlpaca = (alpacaPortraitParts: AlpacaConfigurationOption[]) => {
     const upperLayerItems = ['eyes', 'mouth', 'accessories']
 
+    const renderBackground = (
+        selectedTarget: TargetType,
+        selectedCustomization: CustomizationOption
+    ) => (
+        <Item
+            src={`./assets/${selectedTarget}/${selectedCustomization}.png`}
+            zIndex="0"
+        />
+    )
+
     return alpacaPortraitParts.map((item, index) => {
         const { selectedTarget, selectedCustomization } = item
         const zIndexValue = upperLayerItems.includes(selectedTarget) ? '2' : '1'
-        const isSelectedTargetAccesories = selectedTarget === 'accessories'
 
         if (selectedTarget === 'backgrounds') {
-            return (
-                <Item
-                    src={`./assets/${item.selectedTarget}/${item.selectedCustomization}.png`}
-                    zIndex="0"
-                />
-            )
+            renderBackground(selectedTarget, selectedCustomization)
         }
-        if (
-            (isSelectedTargetAccesories && selectedCustomization) ||
-            !isSelectedTargetAccesories
-        ) {
-            return (
-                <Item
-                    src={getItemImgPath({
-                        selectedCustomization,
-                        selectedTarget,
-                    })}
-                    zIndex={zIndexValue}
-                    key={index}
-                />
-            )
-        }
+
+        return (
+            <Item
+                src={getItemImgPath({
+                    selectedCustomization,
+                    selectedTarget,
+                })}
+                zIndex={zIndexValue}
+                key={index}
+            />
+        )
     })
 }
 
