@@ -59,7 +59,7 @@ const renderAlpaca = (alpacaPortraitParts: AlpacaState) => {
             const zIndexValue = topLayerTargets.includes(selectedTarget)
                 ? '2'
                 : '1'
-            const isSelectedTargetAccesories = selectedTarget === 'accessories'
+
             if (selectedTarget === 'backgrounds') {
                 return (
                     <Item
