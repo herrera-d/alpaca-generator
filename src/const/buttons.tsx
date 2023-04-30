@@ -1,5 +1,25 @@
 import { TargetType } from '../components/alpacaViewer/AlpacaViewer'
 
+export type BackgroundColor =
+    | '2A5CA7'
+    | '2B7BF4'
+    | '5696F6'
+    | '7A8FAF'
+    | '9F370B'
+    | '9FD966'
+    | '9FD967'
+    | '74BD28'
+    | '01193D'
+    | '002966'
+    | '5696F6'
+    | '333333'
+    | '666666'
+    | 'CCCCCC'
+    | 'CE8E'
+    | 'E5B60E'
+    | 'E85E22'
+    | 'FBD33F'
+
 export type CustomizationOption =
     | 'bang'
     | 'curls'
@@ -19,9 +39,20 @@ export type CustomizationOption =
     | 'astonished'
     | 'eating'
     | 'laugh'
+    | 'fancy'
+    | 'short'
     | '#2A5CA7'
     | '#2B7BF4'
     | '#5696F6'
+    | 'tongue'
+    | 'bend-backward'
+    | 'bend-forward'
+    | 'thick'
+    | 'earings'
+    | 'flower'
+    | 'glasses'
+    | 'headphone'
+    | BackgroundColor
 
 export const TARGET_NAMES: TargetType[] = [
     'hair',
@@ -34,7 +65,7 @@ export const TARGET_NAMES: TargetType[] = [
     'backgrounds',
 ]
 
-export const backgroundColors = [
+export const backgroundColors: BackgroundColor[] = [
     '2A5CA7',
     '2B7BF4',
     '5696F6',
@@ -55,7 +86,14 @@ export const backgroundColors = [
     'FBD33F',
 ]
 
-export const ALPACA_CUSTOMIZATION_OPTIONS = [
+export const ALPACA_CUSTOMIZATION_OPTIONS: {
+    target: TargetType
+    customizationOptions: CustomizationOption[] | BackgroundColor[]
+}[] = [
+    {
+        target: 'backgrounds',
+        customizationOptions: backgroundColors,
+    },
     {
         target: 'hair',
         customizationOptions: [
@@ -118,10 +156,12 @@ export const ALPACA_CUSTOMIZATION_OPTIONS = [
         customizationOptions: ['earings', 'flower', 'glasses', 'headphone'],
     },
     {
-        target: 'backgrounds',
-        customizationOptions: backgroundColors,
-    },
-    {
         target: 'nose',
+        customizationOptions: ['default'],
     },
 ]
+
+export interface AlpacaCustmizationOption {
+    target: TargetType
+    customizationOptions: CustomizationOption[]
+}

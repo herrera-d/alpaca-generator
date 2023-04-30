@@ -6,16 +6,23 @@ import AlpacaViewer, {
     AlpacaConfigurationOption,
     TargetType,
 } from './components/alpacaViewer/AlpacaViewer'
-import CustomizationControls from './components/CustomizationControls'
+import CustomizationControls from './components/Customization'
 import {
     ALPACA_CUSTOMIZATION_OPTIONS,
     CustomizationOption,
 } from './const/buttons'
+import { AlpacaInitialState } from './const/defaultStates'
 
 const MainContent = styled('div')`
     @media (min-width: 768px) {
         display: grid;
-        grid-template-columns: 36% 2fr;
+        grid-template-columns: 36% minmax(380px, 1070px);
+        grid-template-rows: 1fr;
+        grid-gap: 30px;
+    }
+    @media (max-width: 980px) {
+        display: grid;
+        grid-template-columns: 1fr;
         grid-template-rows: 1fr;
         grid-gap: 30px;
     }
@@ -37,75 +44,38 @@ const ViewerContainer = styled('div')`
     overflow-x: hidden;
     padding-bottom: 22px;
 `
+
+const generateRandomIndex = (arrayLength: number): number =>
+    Math.floor(Math.random() * arrayLength)
+
+const getRandomAlpaca = () =>
+    ALPACA_CUSTOMIZATION_OPTIONS.map((item) => {
+        const { customizationOptions, target } = item as {
+            customizationOptions: CustomizationOption[]
+            target: TargetType
+        }
+
+        return {
+            selectedTarget: target,
+            selectedCustomization:
+                customizationOptions[
+                    generateRandomIndex(customizationOptions.length)
+                ],
+        }
+    })
+
 function App() {
-    const AlpacaInitialState: AlpacaConfigurationOption[] = [
-        {
-            selectedTarget: 'hair',
-            selectedCustomization: 'default',
-        },
-        {
-            selectedTarget: 'eyes',
-            selectedCustomization: 'default',
-        },
-        {
-            selectedTarget: 'ears',
-            selectedCustomization: 'tilt-backward',
-        },
-        {
-            selectedTarget: 'leg',
-            selectedCustomization: 'default',
-        },
-        {
-            selectedTarget: 'mouth',
-            selectedCustomization: 'default',
-        },
-        {
-            selectedTarget: 'neck',
-            selectedCustomization: 'default',
-        },
-        {
-            selectedTarget: 'accessories',
-        },
-        {
-            selectedTarget: 'backgrounds',
-            selectedCustomization: '2A5CA7',
-        },
-        {
-            selectedTarget: 'nose',
-            selectedCustomization: '',
-        },
-    ]
     const [alpacaParts, setAlpacaParts] =
         useState<AlpacaConfigurationOption[]>(AlpacaInitialState)
 
     const makeRandomizedAlpaca = (): void => {
-        const generateRandomIndex = (arrayLength: number): number =>
-            Math.floor(Math.random() * arrayLength)
-
-        const randomAlpaca = ALPACA_CUSTOMIZATION_OPTIONS.map((item) => {
-            const { customizationOptions, target } = item as {
-                customizationOptions: CustomizationOption[]
-                target: TargetType
-            }
-            if (customizationOptions) {
-                return {
-                    selectedTarget: target,
-                    selectedCustomization:
-                        customizationOptions[
-                            generateRandomIndex(customizationOptions.length)
-                        ],
-                }
-            }
-            return {
-                selectedTarget: target,
-            }
-        })
+        const randomAlpaca = getRandomAlpaca()
         setAlpacaParts(randomAlpaca)
     }
 
     const updatePart = (
         selectedType: TargetType,
-        selectedSubType?: CustomizationOption
+        selectedSubType: CustomizationOption
     ) => {
         let newAlpacaConfiguration = alpacaParts.map((item) => {
             if (item.selectedTarget === selectedType) {
