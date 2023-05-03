@@ -35,10 +35,15 @@ interface AlpacaPartProps {
 
 const AlpacaViewerContainer = styled('div')`
     position: relative;
-    width: 100%;
+    width: 60%;
     min-height: 386px;
-    @media (min-width: 768px) {
+    @media (max-width: 460px) {
         position: relative;
+        width: 100%;
+    }
+    @media (min-width: 820px) {
+        position: relative;
+        width: 100%;
     }
 `
 
@@ -50,11 +55,19 @@ const Item = styled.img<AlpacaPartProps>`
     left: 0px;
     bottom: 0px;
     z-index: ${(props: AlpacaPartProps) => props.zIndex};
+    @media (max-width: 820px) {
+        width: 100%;
+    }
 `
 
 const Wrapper = styled.div`
     position: sticky;
     top: 0px;
+    @media (max-width: 820px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 `
 
 const getItemImgPath = ({

@@ -14,17 +14,13 @@ import {
 import { AlpacaInitialState } from './const/defaultStates'
 
 const MainContent = styled('div')`
-    @media (min-width: 768px) {
+    text-align: center;
+    @media (min-width: 820px) {
         display: grid;
         grid-template-columns: 36% minmax(380px, 1070px);
         grid-template-rows: 1fr;
         grid-gap: 30px;
-    }
-    @media (max-width: 980px) {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-        grid-gap: 30px;
+        text-align: left;
     }
 `
 

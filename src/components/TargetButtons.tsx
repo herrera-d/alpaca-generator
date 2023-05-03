@@ -80,6 +80,9 @@ const SelectTargetButtons = ({
     targetToCustomize: TargetType | undefined
 }) => {
     const [buttonList, setButtonList] = useState<ButtonListType>()
+    const isSelectingCustomizatoin = buttonList?.some(
+        ({ isVisible }) => isVisible === false
+    )
 
     useEffect(() => {
         setButtonList(makeButtonList(buttonNameList))
@@ -104,7 +107,7 @@ const SelectTargetButtons = ({
                 handleClick={handleClick}
                 targetToCustomize={targetToCustomize}
             />
-            {isMobile && targetToCustomize && (
+            {isMobile && isSelectingCustomizatoin && (
                 <button onClick={() => handleBack(buttonList)}>Back</button>
             )}
         </>

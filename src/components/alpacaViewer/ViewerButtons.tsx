@@ -13,6 +13,13 @@ const ButtonsContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    @media (max-width: 820px) {
+        width: 60%;
+    }
+    @media (max-width: 460px) {
+        position: relative;
+        width: 100%;
+    }
 `
 
 const ViewerButtons = ({
