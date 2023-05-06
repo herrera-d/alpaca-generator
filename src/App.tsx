@@ -18,7 +18,7 @@ const MainContent = styled('div')`
     @media (min-width: 820px) {
         display: grid;
         grid-template-columns: 36% minmax(380px, 1070px);
-        grid-template-rows: 1fr;
+        grid-template-rows: min-content;
         grid-gap: 30px;
         text-align: left;
     }
@@ -33,7 +33,11 @@ const Wrapper = styled('div')`
         align-items: center;
     }
 `
-const CustomControlsWrapper = styled('div')``
+const CustomControlsWrapper = styled('div')`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
 const ViewerContainer = styled('div')`
     position: sticky;
     top: 0px;

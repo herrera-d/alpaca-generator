@@ -17,21 +17,33 @@ const CustomizationButtons = ({
 
     selectedTarget?: TargetType
 }) => {
-    return (
-        <>
-            {targetToCustomize &&
-                buttons?.map((button) => {
-                    return (
-                        <Button
-                            id={Math.random()}
-                            buttonName={button}
-                            onClick={handleCustomization}
-                            isVisible={true}
-                        />
-                    )
-                })}
-        </>
-    )
+    {
+        return (
+            <>
+                targetToCustomize && (
+                <div>
+                    <h2>Select a customization option</h2>
+                    {targetToCustomize &&
+                        buttons?.map((button) => {
+                            return (
+                                <Button
+                                    id={Math.random()}
+                                    buttonName={button}
+                                    className={
+                                        selectedOption === button
+                                            ? 'selected'
+                                            : ''
+                                    }
+                                    onClick={handleCustomization}
+                                    isVisible={true}
+                                />
+                            )
+                        })}
+                </div>
+                )
+            </>
+        )
+    }
 }
 
 export default CustomizationButtons

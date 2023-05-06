@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import 'animate.css'
 import styled from 'styled-components'
 import {
@@ -10,6 +10,11 @@ import { TargetType } from './alpacaViewer/AlpacaViewer'
 
 import SelectTargetButtons from './TargetButtons'
 import CustomizationButtons from './CustomizationButtons'
+import {
+    addEventListeners,
+    checkIfMobile,
+    removeEventListeners,
+} from '../helpers/componentsHelpers'
 
 type CustomizationControlsProps = (
     selectedType: TargetType,
@@ -37,22 +42,6 @@ const getCustomizeOptionsBtns = (selectedType: TargetType) => {
     )?.customizationOptions as CustomizationOption[]
 }
 
-const addEventListeners: <T extends (...args: any[]) => void>(
-    checkIfMobile: T,
-    setIsMobile: Dispatch<SetStateAction<boolean>>
-) => void = (checkIfMobile, setIsMobile): void => {
-    window.addEventListener('load', () => checkIfMobile(setIsMobile))
-    window.addEventListener('resize', () => checkIfMobile(setIsMobile))
-}
-
-const removeEventListeners: <T extends (...args: any[]) => void>(
-    checkIfMobile: T,
-    setIsMobile: Dispatch<SetStateAction<boolean>>
-) => void = (checkIfMobile, setIsMobile) => {
-    window.removeEventListener('resize', () => checkIfMobile(setIsMobile))
-    window.removeEventListener('load', () => checkIfMobile(setIsMobile))
-}
-
 const Customization = ({
     updatePart,
 }: {
@@ -61,7 +50,8 @@ const Customization = ({
     const [targetToCustomize, setTargetToCustomizeCustomize] = useState<
         TargetType | undefined
     >(undefined)
-    const [selectedOption, setSelectedOption] = useState<CustomizationOption>()
+    const [selectedOption, setSelectedOption] =
+        useState<CustomizationOption>('default')
     const [customizationButtons, setCustomizationButtons] =
         useState<CustomizationOption[]>()
     const [isMobile, setIsMobile] = useState<boolean>(false)
@@ -87,14 +77,6 @@ const Customization = ({
         }
     }
 
-    const checkIfMobile = (
-        setIsMobile: Dispatch<SetStateAction<boolean>>
-    ): void => {
-        if (window.innerWidth <= 768) {
-            setIsMobile(true)
-        }
-    }
-
     useEffect(() => {
         addEventListeners(checkIfMobile, setIsMobile)
         return () => removeEventListeners(checkIfMobile, setIsMobile)
@@ -102,8 +84,6 @@ const Customization = ({
 
     return (
         <>
-            <h2>Select what you want to customize</h2>
-
             <SelectTargetButtons
                 buttonNameList={ButtonNames}
                 isMobile={isMobile}
@@ -111,7 +91,6 @@ const Customization = ({
                 targetToCustomize={targetToCustomize}
             />
 
-            <h2>Select a customization option</h2>
             <CustomizationButtons
                 buttons={customizationButtons}
                 callback={handleButtonClick}

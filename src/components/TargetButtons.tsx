@@ -101,7 +101,8 @@ const SelectTargetButtons = ({
     }
 
     return (
-        <>
+        <div>
+            <h2>Select what you want to customize</h2>
             <RenderButtonList
                 buttonList={buttonList}
                 handleClick={handleClick}
@@ -110,7 +111,7 @@ const SelectTargetButtons = ({
             {isMobile && isSelectingCustomizatoin && (
                 <button onClick={() => handleBack(buttonList)}>Back</button>
             )}
-        </>
+        </div>
     )
 }
 
