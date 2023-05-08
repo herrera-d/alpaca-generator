@@ -134,13 +134,7 @@ export const ALPACA_CUSTOMIZATION_OPTIONS: {
     },
     {
         target: 'mouth',
-        customizationOptions: [
-            'astonished',
-            'eating',
-            'default',
-            'eating',
-            'tongue',
-        ],
+        customizationOptions: ['astonished', 'eating', 'default', 'tongue'],
     },
     {
         target: 'neck',

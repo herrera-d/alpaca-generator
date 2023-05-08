@@ -35,7 +35,7 @@ interface AlpacaPartProps {
 
 const AlpacaViewerContainer = styled('div')`
     position: relative;
-    width: 60%;
+    width: 100%;
     min-height: 386px;
     @media (max-width: 460px) {
         position: relative;
@@ -60,9 +60,18 @@ const Item = styled.img<AlpacaPartProps>`
     }
 `
 
-const Wrapper = styled.div`
+const ViewerContainer = styled('div')`
     position: sticky;
     top: 0px;
+    overflow-x: hidden;
+    padding-bottom: 22px;
+`
+
+const Wrapper = styled.div`
+    position: sticky;
+    width: 100%;
+    top: 0px;
+    max-width: 474px;
     @media (max-width: 820px) {
         display: flex;
         flex-direction: column;

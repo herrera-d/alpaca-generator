@@ -14,7 +14,7 @@ const ButtonsContainer = styled.div`
     display: flex;
     justify-content: center;
     @media (max-width: 820px) {
-        width: 60%;
+        width: 100%;
     }
     @media (max-width: 460px) {
         position: relative;

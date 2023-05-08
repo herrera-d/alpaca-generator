@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
-import { TargetType } from './alpacaViewer/AlpacaViewer'
-import Button from './Button'
+import { TargetType } from '../alpacaViewer/AlpacaViewer'
+import Button from '../Button'
+
+const Title = styled('h1')`
+    @media (max-width: 850px) {
+        font-size: 2rem;
+    }
+`
 
 type ButtonListType =
     | {
@@ -47,10 +54,12 @@ const RenderButtonList = ({
     buttonList,
     handleClick,
     targetToCustomize,
+    isMobile,
 }: {
     buttonList: ButtonListType
     handleClick: (buttonName: TargetType | undefined, id: number) => void
     targetToCustomize: TargetType | undefined
+    isMobile: Boolean
 }) => (
     <>
         {buttonList &&
@@ -58,10 +67,10 @@ const RenderButtonList = ({
                 const configuration = {
                     id,
                     buttonName: name,
-                    className: targetToCustomize && !isVisible ? 'fadeOut' : '',
+                    className: name === targetToCustomize ? 'selected' : '',
                     onClick: (buttonName: TargetType) =>
                         handleClick(buttonName, id),
-                    isVisible,
+                    isVisible: !isMobile ? true : isVisible,
                 }
                 return <Button {...configuration} />
             })}
@@ -102,11 +111,12 @@ const SelectTargetButtons = ({
 
     return (
         <div>
-            <h2>Select what you want to customize</h2>
+            <Title>Customize the alpaca</Title>
             <RenderButtonList
                 buttonList={buttonList}
                 handleClick={handleClick}
                 targetToCustomize={targetToCustomize}
+                isMobile={isMobile}
             />
             {isMobile && isSelectingCustomizatoin && (
                 <button onClick={() => handleBack(buttonList)}>Back</button>

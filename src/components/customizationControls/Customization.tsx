@@ -5,8 +5,11 @@ import {
     ALPACA_CUSTOMIZATION_OPTIONS,
     TARGET_NAMES as ButtonNames,
     CustomizationOption,
-} from '../const/buttons'
-import { TargetType } from './alpacaViewer/AlpacaViewer'
+} from '../../const/buttons'
+import {
+    AlpacaConfigurationOption,
+    TargetType,
+} from '../alpacaViewer/AlpacaViewer'
 
 import SelectTargetButtons from './TargetButtons'
 import CustomizationButtons from './CustomizationButtons'
@@ -14,7 +17,7 @@ import {
     addEventListeners,
     checkIfMobile,
     removeEventListeners,
-} from '../helpers/componentsHelpers'
+} from '../../helpers/componentsHelpers'
 
 type CustomizationControlsProps = (
     selectedType: TargetType,
@@ -24,6 +27,12 @@ type CustomizationControlsProps = (
 interface ButtonBacgkroundColor {
     color: string
 }
+
+const CustomControlsWrapper = styled('div')`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`
 
 const BackgroundButton = styled('button')<ButtonBacgkroundColor>`
     margin: 6px;
@@ -44,8 +53,10 @@ const getCustomizeOptionsBtns = (selectedType: TargetType) => {
 
 const Customization = ({
     updatePart,
+    alpacaParts,
 }: {
     updatePart: CustomizationControlsProps
+    alpacaParts: AlpacaConfigurationOption[]
 }) => {
     const [targetToCustomize, setTargetToCustomizeCustomize] = useState<
         TargetType | undefined
@@ -83,7 +94,7 @@ const Customization = ({
     }, [])
 
     return (
-        <>
+        <CustomControlsWrapper>
             <SelectTargetButtons
                 buttonNameList={ButtonNames}
                 isMobile={isMobile}
@@ -96,8 +107,9 @@ const Customization = ({
                 callback={handleButtonClick}
                 handleCustomization={handleCustomization}
                 targetToCustomize={targetToCustomize}
+                alpacaParts={alpacaParts}
             />
-        </>
+        </CustomControlsWrapper>
     )
 }
 

@@ -6,7 +6,7 @@ import AlpacaViewer, {
     AlpacaConfigurationOption,
     TargetType,
 } from './components/alpacaViewer/AlpacaViewer'
-import CustomizationControls from './components/Customization'
+import CustomizationControls from './components/customizationControls/Customization'
 import {
     ALPACA_CUSTOMIZATION_OPTIONS,
     CustomizationOption,
@@ -15,29 +15,25 @@ import { AlpacaInitialState } from './const/defaultStates'
 
 const MainContent = styled('div')`
     text-align: center;
-    @media (min-width: 820px) {
+    margin: 0px auto;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media (min-width: 858px) {
         display: grid;
+        width: 80vw;
+        max-width: 1226px;
         grid-template-columns: 36% minmax(380px, 1070px);
         grid-template-rows: min-content;
         grid-gap: 30px;
-        text-align: left;
+    }
+
+    @media (min-width: 400px) {
+        width: 100vw;
     }
 `
 
-const Wrapper = styled('div')`
-    @media (min-width: 768px) {
-        width: 100vw;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-`
-const CustomControlsWrapper = styled('div')`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
 const ViewerContainer = styled('div')`
     position: sticky;
     top: 0px;
@@ -88,19 +84,17 @@ function App() {
         setAlpacaParts(newAlpacaConfiguration)
     }
     return (
-        <Wrapper>
-            <MainContent>
-                <ViewerContainer>
-                    <AlpacaViewer
-                        itemsToRender={alpacaParts}
-                        randomizerCallback={makeRandomizedAlpaca}
-                    />
-                </ViewerContainer>
-                <CustomControlsWrapper>
-                    <CustomizationControls updatePart={updatePart} />
-                </CustomControlsWrapper>
-            </MainContent>
-        </Wrapper>
+        <MainContent>
+            <AlpacaViewer
+                itemsToRender={alpacaParts}
+                randomizerCallback={makeRandomizedAlpaca}
+            />
+
+            <CustomizationControls
+                updatePart={updatePart}
+                alpacaParts={alpacaParts}
+            />
+        </MainContent>
     )
 }
 

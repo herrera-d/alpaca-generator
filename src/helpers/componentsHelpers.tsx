@@ -20,6 +20,7 @@ export const checkIfMobile = (
     setIsMobile: Dispatch<SetStateAction<boolean>>
 ): void => {
     if (window.innerWidth <= 768) {
-        setIsMobile(true)
+        return setIsMobile(true)
     }
+    return setIsMobile(false)
 }
