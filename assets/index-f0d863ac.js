@@ -169,7 +169,7 @@ PERFORMANCE OF THIS SOFTWARE.
 `;const Xy=A=>{var e;return(e=Ch.find(t=>t.target===A))==null?void 0:e.customizationOptions},zy=({updatePart:A,alpacaParts:e})=>{const[t,r]=SA.useState(void 0),[n,i]=SA.useState("default"),[o,s]=SA.useState(),[a,l]=SA.useState(!1),u=()=>{t&&n&&A(t,n)},c=p=>{if(!p)return r(void 0);r(p),s(Xy(p))},f=p=>{i(p),t&&A(t,p)};return SA.useEffect(()=>(Vy(Wf,l),()=>Gy(Wf,l)),[]),br(by,{children:[mA(_y,{buttonNameList:xy,isMobile:a,setTargetToCustomizeCustomize:c,targetToCustomize:t}),mA(Py,{buttons:o,callback:u,handleCustomization:f,targetToCustomize:t,alpacaParts:e})]})},Wy=[{selectedTarget:"backgrounds",selectedCustomization:"default"},{selectedTarget:"neck",selectedCustomization:"default"},{selectedTarget:"hair",selectedCustomization:"default"},{selectedTarget:"eyes",selectedCustomization:"default"},{selectedTarget:"ears",selectedCustomization:"tilt-backward"},{selectedTarget:"leg",selectedCustomization:"default"},{selectedTarget:"mouth",selectedCustomization:"default"},{selectedTarget:"accessories",selectedCustomization:"default"},{selectedTarget:"nose",selectedCustomization:"default"}],Jy=He("div")`
     text-align: center;
     margin: 0px auto;
-    width: 80vw;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -182,7 +182,7 @@ PERFORMANCE OF THIS SOFTWARE.
         grid-gap: 30px;
     }
 
-    @media (min-width: 400px) {
+    @media (max-width: 400px) {
         width: 100vw;
     }
 `;He("div")`
